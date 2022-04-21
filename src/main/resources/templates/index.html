@@ -15,7 +15,8 @@
 <body class="bg-light">
 <div id="error"
      class="alert alert-danger alert-dismissible fade position-absolute start-50 translate-middle translate-middle-x"
-     role="alert">
+     role="alert"
+     style="z-index: 999">
     <strong>Błąd w obliczeniach</strong> Należy sprawdzić poprawność listy<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <nav class="navbar navbar-dark bg-dark">
@@ -45,12 +46,14 @@
                             </span>
                         </th>
                         <td class="text-secondary">0</td>
-                        <td class="text-secondary">0</td>
+                        <td class="text-secondary"
+                            id="f-pod">0</td>
                         <td class="text-secondary">0</td>
                     </tr>
                     <tr>
                         <th>Popyt</th>
-                        <td class="text-secondary">0</td>
+                        <td class="text-secondary"
+                            id="f-pop">0</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -85,7 +88,8 @@
                 </div>
             </div>
             <div class="mt-3 w-100">
-                <button class="btn btn-warning w-100">
+                <button class="btn btn-warning w-100"
+                        id="policz">
                     Policz
                 </button>
             </div>
