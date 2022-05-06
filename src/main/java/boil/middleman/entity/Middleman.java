@@ -1,5 +1,7 @@
 package boil.middleman.entity;
 
+import java.util.Arrays;
+
 public class Middleman {
     private float[][] unitPrice;
     // popyt
@@ -47,5 +49,16 @@ public class Middleman {
 
     public void setCost(float[] cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public String toString() {
+        return "Middleman{" +
+                "unitPrice=" + Arrays.toString(unitPrice) +
+                ", demand=" + Arrays.toString(demand) +
+                ", supply=" + Arrays.toString(supply) +
+                ", price=" + Arrays.toString(price) +
+                ", cost=" + Arrays.toString(cost) +
+                '}';
     }
 }
