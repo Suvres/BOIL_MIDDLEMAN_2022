@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class MiddlemanService {
 
-    public Middleman countMiddleman(Middleman middleman){
+    public float[][][] countMiddleman(Middleman middleman){
 
         float[][][] gainTable = initTable(middleman);
 
@@ -20,7 +20,7 @@ public class MiddlemanService {
 
         printTable(gainTable);
 
-        return null;
+        return gainTable;
 
     }
 

@@ -23,8 +23,10 @@ public class DefaultRestController {
     MiddlemanService middlemanService;
 
     @PostMapping(value = "/calculate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity nodeListPost(@RequestBody Middleman middleman) {
+    public float[][][] nodeListPost(@RequestBody Middleman middleman) {
 
+
+        //o co tu chodzi?
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -32,20 +34,8 @@ public class DefaultRestController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "application/json");
 
-        System.out.println(middleman);
 
-        middlemanService.countMiddleman(middleman);
+        return middlemanService.countMiddleman(middleman);
 
-        // TODO Tu nowe dane na zwrot
-
-//        try {
-//            json = mapper.writeValueAsString(n);
-//        } catch (JsonProcessingException e) {
-//
-//            return new ResponseEntity("[]", responseHeaders, HttpStatus.BAD_REQUEST);
-//        }
-        return new ResponseEntity("[]", responseHeaders, HttpStatus.OK);
-
-//        return new ResponseEntity(json, responseHeaders, HttpStatus.OK);
     }
 }
