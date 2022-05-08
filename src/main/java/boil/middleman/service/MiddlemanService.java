@@ -14,15 +14,8 @@ public class MiddlemanService {
 
         float[][][] gainTable = initTable(middleman);
 
-        printTable(gainTable);
 
         gainTable = findMaxElements(middleman, gainTable);
-
-        System.out.println("\n");
-
-        printTable(gainTable);
-
-        System.out.println("\n");
 
         gainTable = optimiseTable(gainTable);
 
@@ -167,7 +160,6 @@ public class MiddlemanService {
 
 
         if(valToOptimise > 0) {
-            System.out.println(iToOptimise+" "+jToOptimise+" "+valToOptimise);
             gainTable = doTheLoop(iToOptimise, jToOptimise, gainTable);
         }
 
@@ -178,10 +170,6 @@ public class MiddlemanService {
     private void findAlphaAndBeta(float[] alpha, float[] beta, float[][][] gainTable){
 
         boolean isDone = true;
-
-        printTable(gainTable);
-        System.out.println("Alpha " +  Arrays.toString(alpha));
-        System.out.println("Beta "+ Arrays.toString(beta)+ "\n");
 
         for(int i=0; i<alpha.length; i++){
             if(Float.isNaN(alpha[i]))
