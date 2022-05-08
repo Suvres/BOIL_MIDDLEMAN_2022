@@ -34,8 +34,6 @@ public class DefaultRestController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "application/json");
 
-
         return middlemanService.countMiddleman(middleman);
-
     }
 }

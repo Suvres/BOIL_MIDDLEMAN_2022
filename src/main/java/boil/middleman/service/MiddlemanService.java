@@ -138,18 +138,27 @@ public class MiddlemanService {
 
         findAlphaAndBeta(alpha,beta,gainTable);
 
+        float valToOptimise = 0;
+        int iToOptimise = 0;
+        int jToOptimise = 0;
+
         for(int i=0; i<alpha.length; i++){
 
             for(int j=0; j<beta.length; j++){
 
-                if(gainTable[i][j][0] - alpha[i] - beta[j] > 0){
+                if(gainTable[i][j][0] - alpha[i] - beta[j] > 0 && gainTable[i][j][0] - alpha[i] - beta[j] > valToOptimise){
 
-                    gainTable = doTheLoop(i,j,gainTable);
+                    valToOptimise = gainTable[i][j][0] - alpha[i] - beta[j];
+                    iToOptimise=i;
+                    jToOptimise=j;
 
                 }
 
             }
         }
+
+        if(valToOptimise > 0)
+            gainTable = doTheLoop(iToOptimise,jToOptimise,gainTable);
 
         return gainTable;
 
