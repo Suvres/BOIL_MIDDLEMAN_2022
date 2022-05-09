@@ -77,13 +77,14 @@ public class MiddlemanService {
             }
         }
 
+        maxElement--;
         int maxI = 0;
         int maxJ = 0;
 
         for(int i=0; i<gainTable.length;i++){
             for(int j=0; j<gainTable[i].length; j++){
 
-                if(gainTable[i][j][0] >= maxElement && middleman.getDemand()[j] > 0 && middleman.getSupply()[i] > 0){
+                if(gainTable[i][j][0] > maxElement && middleman.getDemand()[j] > 0 && middleman.getSupply()[i] > 0){
                     maxElement = gainTable[i][j][0];
                     maxI=i;
                     maxJ=j;
@@ -171,6 +172,9 @@ public class MiddlemanService {
 
         boolean isDone = true;
 
+        float[] tempAlpha = Arrays.copyOf(alpha,alpha.length);
+        float[] tempBeta = Arrays.copyOf(beta,beta.length);
+
         for(int i=0; i<alpha.length; i++){
             if(Float.isNaN(alpha[i]))
                 isDone = false;
@@ -203,6 +207,18 @@ public class MiddlemanService {
             }
         }
 
+        if(Arrays.equals(tempAlpha,alpha) && Arrays.equals(tempBeta,beta)){
+
+            for(int i=0;i<alpha.length;i++){
+                if(Float.isNaN(alpha[i])){
+                    alpha[i] = 0;
+                    break;
+                }
+            }
+
+        }
+
+
         findAlphaAndBeta(alpha,beta,gainTable);
 
     }
@@ -210,9 +226,8 @@ public class MiddlemanService {
     private float[][][] doTheLoop(int selectedI, int selectedJ, float[][][] gainTable){
 
         List<int[]> indexes = new ArrayList<>();
-        int[][] finishedIndexes = new int[4][2];
-        finishedIndexes[0][0] = selectedI;
-        finishedIndexes[0][1] = selectedJ;
+        int[][] finishedIndexes = new int[4][];
+        finishedIndexes[0] = new int[]{selectedI, selectedJ};
 
         for(int i=0; i<gainTable.length;i++){
 
@@ -256,6 +271,13 @@ public class MiddlemanService {
             }
             if(isDone)
                 break;
+        }
+
+        for(int i=0; i<4; i++){
+            if(finishedIndexes[i] == null){
+                System.out.println("Failed to construct the optimisation loop at index: {"+finishedIndexes[0][0]+", "+finishedIndexes[0][1]+"}");
+                return gainTable;
+            }
         }
 
         float minNumber = gainTable[finishedIndexes[1][0]][finishedIndexes[1][1]][1];
