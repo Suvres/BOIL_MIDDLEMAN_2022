@@ -77,13 +77,14 @@ public class MiddlemanService {
             }
         }
 
+        maxElement--;
         int maxI = 0;
         int maxJ = 0;
 
         for(int i=0; i<gainTable.length;i++){
             for(int j=0; j<gainTable[i].length; j++){
 
-                if(gainTable[i][j][0] >= maxElement && middleman.getDemand()[j] > 0 && middleman.getSupply()[i] > 0){
+                if(gainTable[i][j][0] > maxElement && middleman.getDemand()[j] > 0 && middleman.getSupply()[i] > 0){
                     maxElement = gainTable[i][j][0];
                     maxI=i;
                     maxJ=j;
@@ -171,6 +172,9 @@ public class MiddlemanService {
 
         boolean isDone = true;
 
+        float[] tempAlpha = Arrays.copyOf(alpha,alpha.length);
+        float[] tempBeta = Arrays.copyOf(beta,beta.length);
+
         for(int i=0; i<alpha.length; i++){
             if(Float.isNaN(alpha[i]))
                 isDone = false;
@@ -202,6 +206,18 @@ public class MiddlemanService {
 
             }
         }
+
+        if(Arrays.equals(tempAlpha,alpha) && Arrays.equals(tempBeta,beta)){
+
+            for(int i=0;i<alpha.length;i++){
+                if(Float.isNaN(alpha[i])){
+                    alpha[i] = 0;
+                    break;
+                }
+            }
+
+        }
+
 
         findAlphaAndBeta(alpha,beta,gainTable);
 
