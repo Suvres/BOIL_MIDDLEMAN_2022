@@ -17,6 +17,7 @@ class Middle {
     popyt = 0
     podaz = 0
     error
+    resultTable
 
     init() {
         this.table = document.querySelector('table')
@@ -24,6 +25,7 @@ class Middle {
         this.addOButton = document.getElementById('addO')
         this.delDButton = document.getElementById('delD')
         this.delOButton = document.getElementById('delO')
+        this.resultTable = document.getElementById('result-table')
         this.error = document.getElementById('error')
 
         this.policz = document.getElementById('policz')
@@ -200,6 +202,8 @@ class Middle {
         elem.remove()
 
         this.lastD--;
+        this.updatePopEvent()
+        this.updatePodEvent()
     }
 
     removeOCol() {
@@ -220,6 +224,8 @@ class Middle {
 
 
         this.lastO--;
+        this.updatePopEvent()
+        this.updatePodEvent()
     }
 
     addO() {
@@ -304,7 +310,7 @@ class Middle {
         this.error.classList.remove('show')
         const body = await response.json()
 
-        console.log(body)
+        this.computeResult(body)
     }
 
     createData() {
@@ -357,7 +363,84 @@ class Middle {
         json.demand = pop
         json.price = cena
 
+        Array.from(tbody.children).forEach((item, key) => {
+            if(key !== tbody.childElementCount - 2 && key !== tbody.childElementCount - 1 ) {
+                Array.from(item.children).forEach((td, k) => {
+                    if(k !== 0 && k !== item.childElementCount - 2 && k !== item.childElementCount - 1) {
+                        td.id = `-${key}-${k}`
+                    }
+                })
+            }
+        })
+
+
         return json
+    }
+
+    computeResult(body) {
+        const rowsCount = body.length
+        const columnsCount = body[0].length
+        let ZC = 0;
+        let KT = 0;
+        let KZ = 0;
+        let PC = 0;
+
+        const thead = document.createElement('thead')
+        const thhead = document.createElement('tr')
+        const tbody = document.createElement('tbody')
+        const h = document.createElement('th')
+        h.innerText = '#'
+        thead.append(h)
+
+        for (let i = 0; i < columnsCount; i++) {
+            const th = document.createElement('th')
+            th.innerHTML = i !== columnsCount - 1 ? `O<sub>${i+i}</sub>` : 'O<sub>F</sub>';
+            thhead.append(th)
+        }
+
+        thead.append(thead)
+        this.resultTable.append(thead)
+
+        for (let i = 0; i < rowsCount; i++) {
+            const tr = document.createElement('tr')
+            const th = document.createElement('th')
+            th.innerHTML = i !== rowsCount - 1 ? `D<sub>${i+i}</sub>` : 'D<sub>F</sub>'
+            tr.append(th)
+
+            for(let j = 0; j < columnsCount; j++) {
+                const cenaJ = document.getElementById(`-${i}-${j+1}`)
+                const td = document.createElement('td')
+                const cdiv = document.createElement('div')
+                cdiv.classList.add('grid-c')
+                const col1 = document.createElement('div')
+                const col2 = document.createElement('div')
+                const col3 = document.createElement('div')
+                const col4 = document.createElement('div')
+
+                col1.classList.add('border', 'border-dark')
+
+                col1.innerHTML = cenaJ.innerHTML
+                col1.classList.add('bg-primary', 'text-light')
+                col1.title = 'Cena jednostkowa'
+
+                col3.innerHTML = body[i][j][0]
+                col3.classList.add('bg-info')
+                col3.title = 'Zysk jednostkowy'
+
+                col4.innerHTML = body[i][j][1]
+                col4.classList.add('bg-warning')
+                col4.title = 'Ilość towaru'
+
+                cdiv.append(col1, col2, col3, col4)
+                td.append(cdiv)
+                tr.append(td)
+                ZC += body[i][j][1] * body[i][j][0]
+            }
+
+            tbody.append(tr)
+        }
+
+        this.resultTable.append(tbody)
     }
 }
 
