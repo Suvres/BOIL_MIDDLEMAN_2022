@@ -18,6 +18,9 @@ class Middle {
     podaz = 0
     error
     resultTable
+    cost
+    gain
+    income
 
     init() {
         this.table = document.querySelector('table')
@@ -27,6 +30,9 @@ class Middle {
         this.delOButton = document.getElementById('delO')
         this.resultTable = document.getElementById('result-table')
         this.error = document.getElementById('error')
+        this.cost = document.getElementById('cost')
+        this.gain = document.getElementById('gain')
+        this.income = document.getElementById('income')
 
         this.policz = document.getElementById('policz')
 
@@ -377,14 +383,20 @@ class Middle {
         return json
     }
 
-    computeResult(body) {
+    computeResult(record) {
+
+        const body = record.table
+
+        // Koszt
+        const cost = record.cost
+
+        // Zysk
+        const gain = record.gain
+        // Przychód
+        const income = record.income
         const rowsCount = body.length
         const columnsCount = body[0].length
         let ZC = 0;
-        let KT = 0;
-        let KZ = 0;
-        let PC = 0;
-
         const thead = document.createElement('thead')
         const trhead = document.createElement('tr')
         const tbody = document.createElement('tbody')
@@ -417,8 +429,6 @@ class Middle {
                 const col3 = document.createElement('div')
                 const col4 = document.createElement('div')
 
-                col1.classList.add('border', 'border-dark')
-
                 col1.innerHTML = cenaJ.innerHTML
                 col1.classList.add('bg-primary', 'text-light')
                 col1.title = 'Cena jednostkowa'
@@ -434,13 +444,15 @@ class Middle {
                 cdiv.append(col1, col2, col3, col4)
                 td.append(cdiv)
                 tr.append(td)
-                ZC += body[i][j][1] * body[i][j][0]
             }
 
             tbody.append(tr)
         }
 
         this.resultTable.append(tbody)
+        this.cost.innerText = cost
+        this.gain.innerText = gain
+        this.income.innerText = income
     }
 }
 
