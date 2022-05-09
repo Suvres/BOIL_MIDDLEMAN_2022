@@ -386,19 +386,19 @@ class Middle {
         let PC = 0;
 
         const thead = document.createElement('thead')
-        const thhead = document.createElement('tr')
+        const trhead = document.createElement('tr')
         const tbody = document.createElement('tbody')
         const h = document.createElement('th')
         h.innerText = '#'
-        thead.append(h)
+        trhead.append(h)
 
         for (let i = 0; i < columnsCount; i++) {
             const th = document.createElement('th')
             th.innerHTML = i !== columnsCount - 1 ? `O<sub>${i+i}</sub>` : 'O<sub>F</sub>';
-            thhead.append(th)
+            trhead.append(th)
         }
 
-        thead.append(thead)
+        thead.append(trhead)
         this.resultTable.append(thead)
 
         for (let i = 0; i < rowsCount; i++) {
