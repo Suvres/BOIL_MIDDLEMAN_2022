@@ -1,6 +1,7 @@
 package boil.middleman.controller;
 
 import boil.middleman.entity.Middleman;
+import boil.middleman.entity.TableData;
 import boil.middleman.service.MiddlemanService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,7 @@ public class DefaultRestController {
     MiddlemanService middlemanService;
 
     @PostMapping(value = "/calculate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public float[][][] nodeListPost(@RequestBody Middleman middleman) {
+    public TableData nodeListPost(@RequestBody Middleman middleman) {
 
 
         //o co tu chodzi?

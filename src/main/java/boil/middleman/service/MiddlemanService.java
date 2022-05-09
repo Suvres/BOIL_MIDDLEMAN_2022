@@ -1,6 +1,7 @@
 package boil.middleman.service;
 
 import boil.middleman.entity.Middleman;
+import boil.middleman.entity.TableData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,10 +11,9 @@ import java.util.List;
 @Service
 public class MiddlemanService {
 
-    public float[][][] countMiddleman(Middleman middleman){
+    public TableData countMiddleman(Middleman middleman){
 
         float[][][] gainTable = initTable(middleman);
-
 
         gainTable = findMaxElements(middleman, gainTable);
 
@@ -21,7 +21,11 @@ public class MiddlemanService {
 
         printTable(gainTable);
 
-        return gainTable;
+        TableData tableData = countGainCostAndIncome(gainTable, middleman);
+
+        System.out.println(tableData);
+
+        return tableData;
 
     }
 
@@ -300,4 +304,24 @@ public class MiddlemanService {
 
     }
 
+    private TableData countGainCostAndIncome(float[][][] gainTable, Middleman middleman){
+
+        float income = 0;
+        float cost = 0;
+        float gain = 0;
+
+        for(int i=0; i< gainTable.length-1;i++){
+            for(int j=0; j<gainTable[i].length-1;j++){
+
+                cost += (middleman.getUnitPrice()[i][j]+middleman.getCost()[i]) * gainTable[i][j][1];
+                income += gainTable[i][j][1] * middleman.getPrice()[j];
+
+            }
+        }
+
+        gain = income - cost;
+
+        return new TableData(gainTable, cost, income, gain);
+
+    }
 }
