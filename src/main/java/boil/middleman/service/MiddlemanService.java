@@ -226,9 +226,8 @@ public class MiddlemanService {
     private float[][][] doTheLoop(int selectedI, int selectedJ, float[][][] gainTable){
 
         List<int[]> indexes = new ArrayList<>();
-        int[][] finishedIndexes = new int[4][2];
-        finishedIndexes[0][0] = selectedI;
-        finishedIndexes[0][1] = selectedJ;
+        int[][] finishedIndexes = new int[4][];
+        finishedIndexes[0] = new int[]{selectedI, selectedJ};
 
         for(int i=0; i<gainTable.length;i++){
 
@@ -272,6 +271,13 @@ public class MiddlemanService {
             }
             if(isDone)
                 break;
+        }
+
+        for(int i=0; i<4; i++){
+            if(finishedIndexes[i] == null){
+                System.out.println("Failed to construct the optimisation loop at index: {"+finishedIndexes[0][0]+", "+finishedIndexes[0][1]+"}");
+                return gainTable;
+            }
         }
 
         float minNumber = gainTable[finishedIndexes[1][0]][finishedIndexes[1][1]][1];
